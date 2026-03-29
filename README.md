@@ -1,1 +1,1 @@
-https://adam3144.github.io/
+https://adam314.com/
