@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Adam Ali</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9GD02FPB43"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9GD02FPB43');
+
+      // Unity custom event tracker
+      function trackEvent(eventName) {
+        gtag('event', eventName);
+      }
+    </script>
 
     <link rel="icon" type="image/png" href="icon.png">
 
@@ -52,7 +65,7 @@
         z-index: 9999;
       }
 
-      /* Rotate overlay (NOW below loading screen) */
+      /* Rotate overlay */
       #rotate-overlay {
         position: fixed;
         top: 0;
@@ -136,7 +149,6 @@
       }
 
       function checkOrientation() {
-        // ONLY show AFTER loading is done
         if (!isLoaded) return;
 
         if (isMobile()) {
@@ -166,7 +178,12 @@
       }).then((unityInstance) => {
         loadingScreen.style.display = "none";
         isLoaded = true;
-        checkOrientation(); // run after load
+        checkOrientation();
+
+        // Optional: track Unity page load event
+        if (typeof gtag !== "undefined") {
+          gtag('event', 'unity_page_loaded');
+        }
       }).catch((message) => {
         alert(message);
       });
