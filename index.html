@@ -11,20 +11,14 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9GD02FPB43"></script>
 
 <script>
-
 window.dataLayer = window.dataLayer || [];
-
-function gtag(){
-dataLayer.push(arguments);
-}
-
+function gtag(){ dataLayer.push(arguments); }
 gtag('js', new Date());
 gtag('config','G-9GD02FPB43');
 
 function trackEvent(eventName){
 gtag('event',eventName);
 }
-
 </script>
 
 <link rel="icon" type="image/png" href="icon.png">
@@ -38,297 +32,166 @@ gtag('event',eventName);
 <style>
 
 html,body{
-
 margin:0;
 padding:0;
-
 background:black;
-
 width:100%;
 height:100%;
-
 overflow:hidden;
-
 font-family:Arial;
-
 }
 
 #unity-canvas{
-
 position:fixed;
-
 top:0;
 left:0;
-
 width:100vw;
 height:100vh;
-
 background:black;
-
 }
 
 #loading-screen{
-
 position:fixed;
-
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
 background:black;
-
 display:flex;
-
 justify-content:center;
 align-items:center;
-
 z-index:9999;
-
 }
 
 #loader{
-
 width:420px;
-
 }
 
-/* progress layout */
-
 #progress-container{
-
 display:flex;
-
 align-items:center;
-
 gap:15px;
-
 }
 
 #progress-bg{
-
 flex:1;
-
 height:18px;
-
 background:#111;
-
 border-radius:20px;
-
 overflow:hidden;
-
 border:1px solid #333;
-
-box-shadow:
-0 0 20px rgba(0,255,255,.15) inset;
-
+box-shadow:0 0 20px rgba(0,255,255,.15) inset;
 position:relative;
-
 }
-
-/* existing glow bar */
 
 #progress-bar{
-
 height:100%;
-
 width:0%;
-
 border-radius:20px;
-
-background:linear-gradient(
-90deg,
-#00ffff,
-#0088ff,
-#00ffff
-);
-
+background:linear-gradient(90deg,#00ffff,#0088ff,#00ffff);
 background-size:200% 100%;
-
 animation:glowMove 2s linear infinite;
-
-box-shadow:
-0 0 10px #00ffff,
-0 0 25px #0088ff;
-
+box-shadow:0 0 10px #00ffff,0 0 25px #0088ff;
 transition:width .25s ease;
-
 position:relative;
-
 }
-
-/* NEW holographic sideways scan line */
-
-#progress-bar::after{
-
-content:"";
-
-position:absolute;
-
-top:0;
-
-left:-30%;
-
-width:30%;
-
-height:100%;
-
-background:linear-gradient(
-
-90deg,
-
-transparent,
-
-rgba(255,255,255,.45),
-
-rgba(0,255,255,.4),
-
-transparent
-
-);
-
-animation:holoSweep 2.2s linear infinite;
-
-}
-
-/* subtle scanline texture */
-
-#progress-bg::after{
-
-content:"";
-
-position:absolute;
-
-width:100%;
-height:100%;
-
-background:
-
-repeating-linear-gradient(
-
-to bottom,
-
-rgba(0,255,255,.05) 0px,
-rgba(0,255,255,.05) 2px,
-transparent 2px,
-transparent 4px
-
-);
-
-pointer-events:none;
-
-}
-
-/* percent text */
 
 #progress-text{
-
 font-size:18px;
-
 color:#7fe7ff;
-
 min-width:45px;
-
 text-align:right;
-
 letter-spacing:1px;
-
 }
-
-/* animations */
 
 @keyframes glowMove{
-
 0%{background-position:0%}
-
 100%{background-position:200%}
-
 }
 
-@keyframes holoSweep{
-
-0%{
-
-left:-30%;
-
-}
-
-100%{
-
-left:130%;
-
-}
-
-}
-
+/* ROTATE OVERLAY */
 #rotate-overlay{
-
 position:fixed;
-
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
-background:rgba(0,0,0,0.9);
-
+background:rgba(0,0,0,0.92);
 display:none;
-
 justify-content:center;
 align-items:center;
-
 flex-direction:column;
-
-color:white;
-
+color:#7fe7ff;
+text-shadow:0 0 10px rgba(0,255,255,0.5);
 z-index:9000;
-
+gap:20px;
 }
 
+/* PHONE */
 .phone{
-
 width:60px;
 height:100px;
-
-border:4px solid white;
-
 border-radius:15px;
-
-margin-bottom:20px;
-
+position:relative;
+background:linear-gradient(120deg,rgba(0,255,255,0.12),rgba(0,136,255,0.12));
+border:2px solid rgba(0,255,255,0.6);
+box-shadow:
+0 0 12px #00ffff,
+0 0 30px #0088ff,
+inset 0 0 20px rgba(0,255,255,0.25);
+backdrop-filter: blur(10px) saturate(140%);
 animation:rotateAnim 1.2s infinite alternate;
-
 }
 
-.phone::after{
-
+/* 🔥 ROTATING AURA */
+.phone::before{
 content:"";
-
 position:absolute;
-
-bottom:6px;
-
+top:50%;
 left:50%;
-
-transform:translateX(-50%);
-
-width:10px;
-height:10px;
-
-background:white;
-
+width:140px;
+height:140px;
+transform:translate(-50%,-50%);
 border-radius:50%;
 
+background:
+conic-gradient(
+from 0deg,
+rgba(0,255,255,0.0),
+rgba(0,255,255,0.8),
+rgba(0,136,255,0.8),
+rgba(0,255,255,0.0)
+);
+
+filter:blur(12px);
+animation:auraSpin 2.5s linear infinite;
+z-index:-1;
 }
 
+/* rotation */
 @keyframes rotateAnim{
-
 from{transform:rotate(0deg);}
-
 to{transform:rotate(90deg);}
+}
 
+/* aura spin */
+@keyframes auraSpin{
+from{transform:translate(-50%,-50%) rotate(0deg);}
+to{transform:translate(-50%,-50%) rotate(360deg);}
+}
+
+/* IGNORE TEXT */
+#ignore-rotate{
+font-size:14px;
+opacity:0.7;
+cursor:pointer;
+user-select:none;
+transition:opacity .2s;
+}
+
+#ignore-rotate:hover{
+opacity:1;
+text-decoration:underline;
 }
 
 </style>
@@ -338,35 +201,20 @@ to{transform:rotate(90deg);}
 <body>
 
 <div id="loading-screen">
-
 <div id="loader">
-
 <div id="progress-container">
-
 <div id="progress-bg">
-
 <div id="progress-bar"></div>
-
 </div>
-
-<div id="progress-text">
-
-0%
-
+<div id="progress-text">0%</div>
 </div>
-
 </div>
-
-</div>
-
 </div>
 
 <div id="rotate-overlay">
-
 <div class="phone"></div>
-
 <div>Please rotate your device</div>
-
+<div id="ignore-rotate">tap to ignore (not recommended)</div>
 </div>
 
 <canvas id="unity-canvas"></canvas>
@@ -375,171 +223,90 @@ to{transform:rotate(90deg);}
 
 <script>
 
-var canvas=
-document.querySelector("#unity-canvas");
-
-var loadingScreen=
-document.getElementById("loading-screen");
-
-var rotateOverlay=
-document.getElementById("rotate-overlay");
-
-var progressBar=
-document.getElementById("progress-bar");
-
-var progressText=
-document.getElementById("progress-text");
-
+var canvas=document.querySelector("#unity-canvas");
+var loadingScreen=document.getElementById("loading-screen");
+var rotateOverlay=document.getElementById("rotate-overlay");
+var progressBar=document.getElementById("progress-bar");
+var progressText=document.getElementById("progress-text");
 var unityInstance;
-
 var isLoaded=false;
+var ignoreRotation=false;
 
 var config={
-
 arguments:[],
-
 dataUrl:"Build/Builds.data",
-
 frameworkUrl:"Build/Builds.framework.js",
-
 codeUrl:"Build/Builds.wasm",
-
 streamingAssetsUrl:"StreamingAssets",
-
 companyName:"DefaultCompany",
-
 productName:"Website Test",
-
 productVersion:"1.0",
-
 };
 
 function isMobile(){
-
-return /iPhone|iPad|iPod|Android/i
-.test(navigator.userAgent);
-
+return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 }
 
 function checkOrientation(){
-
-if(!isLoaded)
-return;
+if(!isLoaded || ignoreRotation) return;
 
 if(isMobile()){
-
-if(window.innerHeight>
-window.innerWidth)
-
+if(window.innerHeight>window.innerWidth)
 rotateOverlay.style.display="flex";
-
 else
-
 rotateOverlay.style.display="none";
-
+}else{
+rotateOverlay.style.display="none";
 }
-
-else
-
-rotateOverlay.style.display="none";
-
 }
 
 window.addEventListener("resize",checkOrientation);
-
 window.addEventListener("orientationchange",checkOrientation);
 
+document.getElementById("ignore-rotate").addEventListener("click",()=>{
+ignoreRotation=true;
+rotateOverlay.style.display="none";
+});
+
 if(isMobile()){
-
 var meta=document.createElement('meta');
-
 meta.name='viewport';
-
 meta.content='width=device-width,height=device-height,initial-scale=1,user-scalable=no';
-
 document.head.appendChild(meta);
-
 }
 
-createUnityInstance(
-
-canvas,
-config,
-
-(progress)=>{
-
-var percent=
-Math.round(progress*100);
-
-progressBar.style.width=
-percent+"%";
-
-progressText.innerText=
-percent+"%";
-
+createUnityInstance(canvas,config,(progress)=>{
+var percent=Math.round(progress*100);
+progressBar.style.width=percent+"%";
+progressText.innerText=percent+"%";
 })
-
 .then((instance)=>{
-
 unityInstance=instance;
-
 loadingScreen.style.display="none";
-
 isLoaded=true;
-
 checkOrientation();
 
 setTimeout(()=>{
-
 try{
-
-unityInstance.SendMessage(
-"AudioPeer",
-"EnableAudio"
-);
-
+unityInstance.SendMessage("AudioPeer","EnableAudio");
 }catch(e){}
-
 },500);
 
-window.addEventListener(
-
-"pointerdown",
-
-function(){
-
+window.addEventListener("pointerdown",function(){
 try{
-
-unityInstance.SendMessage(
-"AudioPeer",
-"EnableAudio"
-);
-
+unityInstance.SendMessage("AudioPeer","EnableAudio");
 }catch(e){}
-
-},
-
-{once:true}
-
-);
+},{once:true});
 
 if(typeof gtag!=="undefined")
-
-gtag(
-'event',
-'unity_page_loaded'
-);
+gtag('event','unity_page_loaded');
 
 })
-
 .catch((message)=>{
-
 alert(message);
-
 });
 
 </script>
 
 </body>
-
 </html>
